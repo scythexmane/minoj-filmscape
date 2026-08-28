@@ -64,18 +64,14 @@ export function Overture() {
 
   return (
     <div ref={root} className="stage h-svh w-full overflow-hidden bg-ink">
-      <div
-        data-film
-        className="absolute inset-0 will-change-transform"
-        style={{ clipPath: "inset(0% 0% 0% 0%)" }}
-      >
+      <div data-film className="absolute inset-0 will-change-transform">
         <Footage footage={FOOTAGE.interior} alt={t.hero.eyebrow} />
         <div
           data-veil
-          className="absolute inset-0 bg-ink"
+          className="absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(to top, var(--ink) 4%, color-mix(in oklab, var(--burgundy) 40%, var(--ink)) 55%, color-mix(in oklab, var(--ink) 70%, transparent) 100%)",
+              "linear-gradient(to top, var(--ink) 6%, color-mix(in oklab, var(--ink) 82%, var(--burgundy)) 48%, color-mix(in oklab, var(--ink) 34%, transparent) 100%)",
           }}
         />
       </div>
@@ -100,7 +96,8 @@ export function Overture() {
         </div>
       </div>
 
-      <div className="absolute left-5 top-[46vh] hidden md:block sm:left-8">
+      <div data-line className="absolute left-5 top-[42vh] hidden md:block sm:left-8">
+
         <p className="font-text text-linen/85 text-[clamp(1.25rem,2vw,1.9rem)] font-light italic leading-tight">
           {t.hero.line1} {t.hero.line2} <span className="not-italic">{t.hero.italic}</span>
         </p>
