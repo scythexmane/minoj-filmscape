@@ -86,7 +86,7 @@ export function Filmstrip() {
       >
         {STRIP.map((frame, i) => (
           <figure key={i} className={`${frame.w} ${frame.h} ${frame.align} relative shrink-0`}>
-            <Footage footage={frame.footage} alt={t.reels.captions[i]?.caption} />
+            <Footage footage={frame.footage} alt={t.reels.captions[i]?.caption ?? ""} />
             <figcaption className="absolute -bottom-7 left-0 flex w-full items-baseline justify-between">
               <span className="label">{t.reels.captions[i]?.caption}</span>
               <span className="font-display text-muted-foreground text-[0.6875rem] tabular-nums tracking-[0.18em]">
