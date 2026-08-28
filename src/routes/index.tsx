@@ -1,24 +1,73 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { I18nProvider } from "@/lib/i18n";
+import { useSmoothScroll } from "@/lib/scroll";
+import { Chrome } from "@/components/site/Chrome";
+import { Overture } from "@/components/site/Overture";
+import { Room } from "@/components/site/Room";
+import { Table } from "@/components/site/Table";
+import { Filmstrip } from "@/components/site/Filmstrip";
+import { Voices } from "@/components/site/Voices";
+import { Close } from "@/components/site/Close";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const title = "MINOJ by Rumayso — ресторан в Ташкенте";
+const description =
+  "Minoj by Rumayso — ресторан в Ташкенте: открытый огонь, авторская кухня и вечерний свет. Меню, часы работы, адрес и Instagram.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+function Film() {
+  useSmoothScroll();
+
+  // Any late-loading footage changes layout height; keep the choreography honest.
+  useEffect(() => {
+    let cancelled = false;
+    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+      if (cancelled) return;
+      const refresh = () => ScrollTrigger.refresh();
+      const t = window.setTimeout(refresh, 600);
+      window.addEventListener("load", refresh);
+      return () => {
+        window.clearTimeout(t);
+        window.removeEventListener("load", refresh);
+      };
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return (
+    <div id="top">
+      <Chrome />
+      <main>
+        <Overture />
+        <Room />
+        <Table />
+        <Filmstrip />
+        <Voices />
+        <Close />
+      </main>
+    </div>
+  );
+}
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <I18nProvider>
+      <Film />
+    </I18nProvider>
   );
 }
