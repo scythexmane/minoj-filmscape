@@ -23,11 +23,23 @@ export function Overture() {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce) return;
 
+      // Opening frame: the name is already there, uncovered once, on load.
+      gsap.fromTo(
+        "[data-mark]",
+        { clipPath: "inset(0 0 100% 0)", yPercent: 16 },
+        { clipPath: "inset(0 0 0% 0)", yPercent: 0, duration: 1.5, ease: "power3.out" },
+      );
+      gsap.fromTo(
+        "[data-aside]",
+        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: 1.4, delay: 0.35, ease: "power2.out" },
+      );
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: "+=150%",
+          end: "+=140%",
           pin: true,
           scrub: 0.7,
         },
@@ -35,32 +47,17 @@ export function Overture() {
 
       tl.fromTo(
         "[data-film]",
-        { scale: 1.24, yPercent: -3 },
-        { scale: 1.04, yPercent: 0, ease: "none" },
+        { scale: 1.18, yPercent: -2 },
+        { scale: 1.32, yPercent: 2, ease: "none" },
         0,
       )
-        .fromTo("[data-veil]", { opacity: 0.68 }, { opacity: 0.24, ease: "none" }, 0)
-        .fromTo(
-          "[data-mark]",
-          { clipPath: "inset(0 0 100% 0)", yPercent: 14 },
-          { clipPath: "inset(0 0 0% 0)", yPercent: 0, ease: "power2.out", duration: 0.55 },
-          0.06,
-        )
-        .fromTo(
-          "[data-aside]",
-          { clipPath: "inset(0 100% 0 0)" },
-          { clipPath: "inset(0 0% 0 0)", ease: "power2.out", duration: 0.4 },
-          0.4,
-        )
-        .to("[data-mark]", { yPercent: -9, ease: "none", duration: 0.45 }, 0.55)
-        .to("[data-aside]", { yPercent: -22, ease: "none", duration: 0.45 }, 0.55)
-        .to(
-          "[data-film]",
-          { clipPath: "inset(0% 0% 46% 0%)", scale: 1.14, ease: "none", duration: 0.45 },
-          0.55,
-        )
+        .fromTo("[data-veil]", { opacity: 0.5 }, { opacity: 0.86, ease: "none" }, 0)
+        .to("[data-mark]", { yPercent: -14, opacity: 0, ease: "none", duration: 0.6 }, 0.4)
+        .to("[data-aside]", { yPercent: -40, opacity: 0, ease: "none", duration: 0.5 }, 0.4)
+        .to("[data-line]", { yPercent: -60, opacity: 0, ease: "none", duration: 0.5 }, 0.35)
         .to("[data-hint]", { opacity: 0, duration: 0.15 }, 0.1);
     }, el);
+
 
     return () => ctx.revert();
   }, []);
